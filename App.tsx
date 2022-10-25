@@ -1,7 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
+import OilListItem from './Components/OilListItem';
+
+const oliList = ['고급 휘발유', '휘발유', '경유', '등유', 'LPG'];
 
 export default function App() {
+  const [selectedOil, setSelectedOil] = useState('고급 휘발유');
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -38,6 +45,18 @@ export default function App() {
         <Text style={{ color: 'white', fontSize: 18 }}>
           현재 날짜 기준 전국 주유소 평균 가격 불러오기
         </Text>
+        <Ionicons name="ios-reload-circle" size={42} color="#D9C832" />
+      </View>
+
+      <View>
+        {oliList.map((oil) => (
+          <OilListItem
+            key={oil}
+            oil={oil}
+            selectedOil={selectedOil}
+            setSelectedOil={setSelectedOil}
+          />
+        ))}
       </View>
     </View>
   );
