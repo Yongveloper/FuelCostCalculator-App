@@ -13,6 +13,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import OilListItem from './Components/OilListItem';
+import { theme } from './color';
 
 const oliList = ['고급 휘발유', '휘발유', '경유', '등유', 'LPG', '직접입력'];
 
@@ -54,7 +55,7 @@ export default function App() {
         </View>
         <View style={{ alignItems: 'center', marginVertical: 12 }}>
           <Text style={styles.inputTitle}>유류 가격</Text>
-          <Text style={{ color: 'white', fontSize: 18 }}>
+          <Text style={{ color: theme.white, fontSize: 18 }}>
             현재 날짜 기준 전국 주유소 평균 가격 불러오기
           </Text>
           <Ionicons name="ios-reload-circle" size={42} color="#D9C832" />
@@ -80,7 +81,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#262626',
+    backgroundColor: theme.bodyBg,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   inputTitle: {
-    color: '#D9C832',
+    color: theme.yellow,
     fontSize: 26,
     fontWeight: '600',
     marginBottom: 4,
@@ -97,28 +98,28 @@ const styles = StyleSheet.create({
   input: {
     position: 'relative',
     width: 150,
-    borderBottomColor: 'black',
+    borderBottomColor: theme.black,
     borderBottomWidth: 3,
     fontSize: 20,
-    color: 'white',
+    color: theme.white,
     marginRight: 6,
   },
   unitText: {
     position: 'absolute',
-    color: 'white',
+    color: theme.white,
     fontSize: 16,
   },
   button: {
     width: 200,
     height: 50,
-    backgroundColor: '#D9C832',
+    backgroundColor: theme.yellow,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 32,
   },
   calculationText: {
-    color: 'black',
+    color: theme.black,
     fontSize: 28,
   },
 });

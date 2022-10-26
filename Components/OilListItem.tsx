@@ -1,3 +1,4 @@
+import { memo } from 'React';
 import {
   StyleSheet,
   Text,
@@ -5,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { theme } from '../color';
 
 interface IOilListItemProps {
   oil: string;
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     width: 24,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: '#D9C832',
+    borderColor: theme.yellow,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -62,10 +64,10 @@ const styles = StyleSheet.create({
     height: 12,
     width: 12,
     borderRadius: 6,
-    backgroundColor: '#D9C832',
+    backgroundColor: theme.yellow,
   },
   oilName: {
-    color: 'white',
+    color: theme.white,
     fontSize: 20,
     marginHorizontal: 40,
   },
@@ -78,13 +80,13 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 3,
     fontSize: 20,
-    color: 'white',
+    color: theme.white,
     marginRight: 6,
   },
   wonText: {
-    color: 'white',
+    color: theme.white,
     fontSize: 20,
   },
 });
 
-export default OilListItem;
+export default memo(OilListItem);
