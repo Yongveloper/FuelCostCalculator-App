@@ -6,6 +6,9 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -18,7 +21,10 @@ export default function App() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <StatusBar style="light" />
         <View style={{ alignItems: 'center', marginVertical: 12 }}>
           <Text style={styles.inputTitle}>운행할 거리</Text>
@@ -63,7 +69,10 @@ export default function App() {
             />
           ))}
         </View>
-      </View>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.calculationText}>계산하기</Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }
@@ -98,5 +107,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     color: 'white',
     fontSize: 16,
+  },
+  button: {
+    width: 200,
+    height: 50,
+    backgroundColor: '#D9C832',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 32,
+  },
+  calculationText: {
+    color: 'black',
+    fontSize: 28,
   },
 });
