@@ -10,8 +10,8 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import OilListItem from './Components/OilListItem';
 import { theme } from './color';
 

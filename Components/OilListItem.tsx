@@ -1,4 +1,4 @@
-import { memo } from 'React';
+import { memo } from 'react';
 import {
   StyleSheet,
   Text,
