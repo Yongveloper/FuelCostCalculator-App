@@ -17,9 +17,9 @@ export default function App() {
   const [selectedOil, setSelectedOil] = useState('직접입력');
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="light" />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <StatusBar style="light" />
         <View style={{ alignItems: 'center', marginVertical: 12 }}>
           <Text style={styles.inputTitle}>운행할 거리</Text>
           <View style={styles.inputContainer}>
@@ -33,7 +33,6 @@ export default function App() {
             <Text style={{ ...styles.unitText, right: -35 }}>(km)</Text>
           </View>
         </View>
-
         <View style={{ alignItems: 'center', marginVertical: 12 }}>
           <Text style={styles.inputTitle}>차량 평균 연비</Text>
           <View style={styles.inputContainer}>
@@ -47,7 +46,6 @@ export default function App() {
             <Text style={{ ...styles.unitText, right: -49 }}>(km/L)</Text>
           </View>
         </View>
-
         <View style={{ alignItems: 'center', marginVertical: 12 }}>
           <Text style={styles.inputTitle}>유류 가격</Text>
           <Text style={{ color: 'white', fontSize: 18 }}>
@@ -55,7 +53,6 @@ export default function App() {
           </Text>
           <Ionicons name="ios-reload-circle" size={42} color="#D9C832" />
         </View>
-
         <View>
           {oliList.map((oil) => (
             <OilListItem
@@ -66,8 +63,8 @@ export default function App() {
             />
           ))}
         </View>
-      </TouchableWithoutFeedback>
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
