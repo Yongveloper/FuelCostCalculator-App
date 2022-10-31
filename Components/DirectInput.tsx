@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import { theme } from '../color';
+import { handleOnlyNumber } from '../utils/onlyNumberFn';
 
 interface IDirectInputProps {
   selectedOil: string;
@@ -21,10 +22,13 @@ function DirectInput({
 }: IDirectInputProps) {
   const [value, setValue] = useState('');
   const handleChangeInput = (payload: string) => {
-    setValue(payload);
-    setSelectedPrice(payload);
+    setValue(handleOnlyNumber(payload));
+    setSelectedPrice(handleOnlyNumber(payload));
   };
-  const selectOil = () => setSelectedOil('직접입력');
+  const selectOil = () => {
+    setSelectedOil('직접입력');
+    setSelectedPrice(value);
+  };
   console.log('direct input render');
   return (
     <TouchableOpacity onPress={selectOil} style={styles.container}>
@@ -95,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DirectInput;
+export default memo(DirectInput);
