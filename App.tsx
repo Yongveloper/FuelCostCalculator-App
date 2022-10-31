@@ -19,6 +19,9 @@ const oliList = ['고급 휘발유', '휘발유', '경유', '등유', 'LPG', '�
 
 export default function App() {
   const [selectedOil, setSelectedOil] = useState('직접입력');
+  const [data, setData] = useState([]);
+
+  const fetchOilInfo = () => setData([]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -58,7 +61,9 @@ export default function App() {
           <Text style={{ color: theme.white, fontSize: 18 }}>
             현재 날짜 기준 전국 주유소 평균 가격 불러오기
           </Text>
-          <Ionicons name="ios-reload-circle" size={42} color="#D9C832" />
+          <TouchableOpacity onPress={fetchOilInfo}>
+            <Ionicons name="ios-reload-circle" size={42} color="#D9C832" />
+          </TouchableOpacity>
         </View>
         <View>
           {oliList.map((oil) => (
@@ -67,6 +72,7 @@ export default function App() {
               oil={oil}
               selectedOil={selectedOil}
               setSelectedOil={setSelectedOil}
+              disabled={data.length === 0 && oil !== '직접입력' ? true : false}
             />
           ))}
         </View>

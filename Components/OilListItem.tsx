@@ -12,17 +12,34 @@ interface IOilListItemProps {
   oil: string;
   selectedOil: string;
   setSelectedOil: React.Dispatch<React.SetStateAction<string>>;
+  disabled: boolean;
 }
 
-function OilListItem({ oil, selectedOil, setSelectedOil }: IOilListItemProps) {
-  const SelectOil = () => setSelectedOil(oil);
+function OilListItem({
+  oil,
+  selectedOil,
+  setSelectedOil,
+  disabled,
+}: IOilListItemProps) {
+  const selectOil = () => setSelectedOil(oil);
 
   return (
-    <TouchableOpacity onPress={SelectOil} style={styles.container}>
-      <View style={styles.outSideRadioBtn}>
+    <TouchableOpacity
+      onPress={selectOil}
+      style={styles.container}
+      disabled={disabled}
+    >
+      <View
+        style={[
+          styles.outSideRadioBtn,
+          disabled && styles.disabledOutSideRadioBtn,
+        ]}
+      >
         {oil === selectedOil && <View style={styles.insideRadioBtn} />}
       </View>
-      <Text style={styles.oilName}>{oil}</Text>
+      <Text style={[styles.oilName, disabled && styles.disalbedText]}>
+        {oil}
+      </Text>
       <View>
         {oil === '직접입력' ? (
           <View style={styles.inputContainer}>
@@ -32,12 +49,16 @@ function OilListItem({ oil, selectedOil, setSelectedOil }: IOilListItemProps) {
               placeholder="입력"
               textAlign="right"
               placeholderTextColor="grey"
-              onFocus={SelectOil}
+              onFocus={selectOil}
             />
-            <Text style={styles.wonText}>(원/L)</Text>
+            <Text style={[styles.wonText, disabled && styles.disalbedText]}>
+              (원/L)
+            </Text>
           </View>
         ) : (
-          <Text style={styles.wonText}>(약 ----원/L)</Text>
+          <Text style={[styles.wonText, disabled && styles.disalbedText]}>
+            (약 ----원/L)
+          </Text>
         )}
       </View>
     </TouchableOpacity>
@@ -59,6 +80,9 @@ const styles = StyleSheet.create({
     borderColor: theme.yellow,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  disabledOutSideRadioBtn: {
+    borderColor: theme.grey,
   },
   insideRadioBtn: {
     height: 12,
@@ -86,6 +110,9 @@ const styles = StyleSheet.create({
   wonText: {
     color: theme.white,
     fontSize: 20,
+  },
+  disalbedText: {
+    color: theme.grey,
   },
 });
 
