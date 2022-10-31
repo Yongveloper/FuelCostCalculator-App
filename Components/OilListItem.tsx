@@ -1,11 +1,5 @@
 import { memo } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IOils } from '../App';
 import { theme } from '../color';
 
@@ -13,6 +7,7 @@ interface IOilListItemProps {
   oil: IOils;
   selectedOil: string;
   setSelectedOil: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedPrice: React.Dispatch<React.SetStateAction<string>>;
   disabled: boolean;
 }
 
@@ -20,9 +15,13 @@ function OilListItem({
   oil,
   selectedOil,
   setSelectedOil,
+  setSelectedPrice,
   disabled,
 }: IOilListItemProps) {
-  const selectOil = () => setSelectedOil(oil.name);
+  const selectOil = () => {
+    setSelectedOil(oil.name);
+    setSelectedPrice(oil.price as string);
+  };
   console.log('render');
   return (
     <TouchableOpacity
@@ -42,25 +41,9 @@ function OilListItem({
         {oil.name}
       </Text>
       <View>
-        {oil.name === '직접입력' ? (
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              keyboardType="numeric"
-              placeholder="입력"
-              textAlign="right"
-              placeholderTextColor="grey"
-              onFocus={selectOil}
-            />
-            <Text style={[styles.wonText, disabled && styles.disalbedText]}>
-              (원/L)
-            </Text>
-          </View>
-        ) : (
-          <Text style={[styles.wonText, disabled && styles.disalbedText]}>
-            (약 {oil.price !== null ? oil.price : '----'}원/L)
-          </Text>
-        )}
+        <Text style={[styles.wonText, disabled && styles.disalbedText]}>
+          (약 {oil.price !== null ? oil.price : '----'}원/L)
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -95,18 +78,6 @@ const styles = StyleSheet.create({
     color: theme.white,
     fontSize: 20,
     marginHorizontal: 40,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  input: {
-    width: 80,
-    borderBottomColor: 'black',
-    borderBottomWidth: 3,
-    fontSize: 20,
-    color: theme.white,
-    marginRight: 6,
   },
   wonText: {
     color: theme.white,

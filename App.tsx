@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import OilListItem from './Components/OilListItem';
 import { theme } from './color';
 import { fetchOilData } from './api';
+import DirectInput from './Components/DirectInput';
 
 const oliList = ['고급 휘발유', '경유', '휘발유', '등유', 'LPG', '직접입력'];
 
@@ -37,8 +38,13 @@ export interface IOils {
   price: string | null;
 }
 
+//1. 유류 선택 시 가격 selectedPrice에 저장
+//1 -1 직접 입력 선택세 slectedPrice에 input값 저장
+
 export default function App() {
   const [selectedOil, setSelectedOil] = useState('직접입력');
+  const [selectedPrice, setSelectedPrice] = useState('');
+  console.log(selectedPrice);
   const [loading, setLoading] = useState(false);
   const [oils, setOils] = useState<IOils[]>([
     {
@@ -61,10 +67,6 @@ export default function App() {
       name: 'LPG',
       price: null,
     },
-    {
-      name: '직접입력',
-      price: null,
-    },
   ]);
 
   const checkDisabled = (oilName: string) => {
@@ -79,7 +81,7 @@ export default function App() {
     setLoading(true);
     const data: OilData = await fetchOilData();
     setLoading(false);
-    const oilList = data.RESULT.OIL.map((oil) => {
+    const result = data.RESULT.OIL.map((oil) => {
       let name = '';
       switch (oil.PRODNM) {
         case '고급휘발유':
@@ -103,7 +105,6 @@ export default function App() {
         price: Math.round(parseInt(oil.PRICE)).toLocaleString('ko-KR'),
       };
     });
-    const result = [...oilList, { name: '직접입력', price: null }];
     setOils(result);
   };
 
@@ -164,9 +165,15 @@ export default function App() {
               oil={oil}
               selectedOil={selectedOil}
               setSelectedOil={setSelectedOil}
+              setSelectedPrice={setSelectedPrice}
               disabled={checkDisabled(oil.name)}
             />
           ))}
+          <DirectInput
+            selectedOil={selectedOil}
+            setSelectedOil={setSelectedOil}
+            setSelectedPrice={setSelectedPrice}
+          />
         </View>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.calculationText}>계산하기</Text>
