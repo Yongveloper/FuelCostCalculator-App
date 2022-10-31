@@ -17,6 +17,7 @@ import { theme } from './color';
 import { fetchOilData } from './api';
 import DirectInput from './Components/DirectInput';
 import Calculatebutton from './Components/Calculatebutton';
+import { handleOnlyNumber } from './utils/onlyNumberFn';
 
 interface OilInfo {
   TRADE_DT: string;
@@ -37,10 +38,11 @@ export interface IOils {
   price: string | null;
 }
 
+// 주유비 계산: 주행거리 / 연비 * 기름값
+
 export default function App() {
   const [mileage, setMileage] = useState('');
   const [gasMileage, setGasMileage] = useState('');
-  console.log(mileage, gasMileage);
   const [selectedOil, setSelectedOil] = useState('직접입력');
   const [selectedPrice, setSelectedPrice] = useState('');
   const [loading, setLoading] = useState(false);
@@ -67,9 +69,11 @@ export default function App() {
     },
   ]);
 
-  const handleMileageInput = (payload: string) => setMileage(payload);
+  const handleMileageInput = (payload: string) =>
+    setMileage(handleOnlyNumber(payload));
 
-  const handleGasMileageInput = (payload: string) => setGasMileage(payload);
+  const handleGasMileageInput = (payload: string) =>
+    setGasMileage(handleOnlyNumber(payload));
 
   const checkDisabled = (oilName: string) => {
     if (oils[0].price === null && oilName !== '직접입력') {
@@ -120,6 +124,7 @@ export default function App() {
         <View style={{ alignItems: 'center', marginVertical: 12 }}>
           <Text style={styles.inputTitle}>운행할 거리</Text>
           <View style={styles.inputContainer}>
+            <Text style={styles.baseText}>약</Text>
             <TextInput
               style={styles.input}
               value={mileage}
@@ -135,6 +140,7 @@ export default function App() {
         <View style={{ alignItems: 'center', marginVertical: 12 }}>
           <Text style={styles.inputTitle}>차량 평균 연비</Text>
           <View style={styles.inputContainer}>
+            <Text style={styles.baseText}>약</Text>
             <TextInput
               style={styles.input}
               value={gasMileage}
@@ -182,7 +188,10 @@ export default function App() {
           />
         </View>
         <Calculatebutton
-          disabled={!mileage && !gasMileage && !selectedPrice ? true : false}
+          disabled={!mileage || !gasMileage || !selectedPrice ? true : false}
+          mileage={mileage}
+          gasMileage={gasMileage}
+          selectedPrice={selectedPrice}
         />
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
@@ -196,6 +205,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  baseText: {
+    color: theme.white,
+    fontSize: 20,
+    marginRight: 6,
+  },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -208,7 +222,7 @@ const styles = StyleSheet.create({
   },
   input: {
     position: 'relative',
-    width: 150,
+    width: 100,
     borderBottomColor: theme.black,
     borderBottomWidth: 3,
     fontSize: 20,
