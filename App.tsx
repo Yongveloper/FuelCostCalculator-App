@@ -16,8 +16,7 @@ import OilListItem from './Components/OilListItem';
 import { theme } from './color';
 import { fetchOilData } from './api';
 import DirectInput from './Components/DirectInput';
-
-const oliList = ['고급 휘발유', '경유', '휘발유', '등유', 'LPG', '직접입력'];
+import Calculatebutton from './Components/Calculatebutton';
 
 interface OilInfo {
   TRADE_DT: string;
@@ -38,13 +37,12 @@ export interface IOils {
   price: string | null;
 }
 
-//1. 유류 선택 시 가격 selectedPrice에 저장
-//1 -1 직접 입력 선택세 slectedPrice에 input값 저장
-
 export default function App() {
+  const [mileage, setMileage] = useState('');
+  const [gasMileage, setGasMileage] = useState('');
+  console.log(mileage, gasMileage);
   const [selectedOil, setSelectedOil] = useState('직접입력');
   const [selectedPrice, setSelectedPrice] = useState('');
-  console.log(selectedPrice);
   const [loading, setLoading] = useState(false);
   const [oils, setOils] = useState<IOils[]>([
     {
@@ -68,6 +66,10 @@ export default function App() {
       price: null,
     },
   ]);
+
+  const handleMileageInput = (payload: string) => setMileage(payload);
+
+  const handleGasMileageInput = (payload: string) => setGasMileage(payload);
 
   const checkDisabled = (oilName: string) => {
     if (oils[0].price === null && oilName !== '직접입력') {
@@ -120,6 +122,8 @@ export default function App() {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
+              value={mileage}
+              onChangeText={handleMileageInput}
               keyboardType="numeric"
               placeholder="입력"
               textAlign="right"
@@ -133,6 +137,8 @@ export default function App() {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
+              value={gasMileage}
+              onChangeText={handleGasMileageInput}
               keyboardType="numeric"
               placeholder="입력"
               textAlign="right"
@@ -175,9 +181,9 @@ export default function App() {
             setSelectedPrice={setSelectedPrice}
           />
         </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.calculationText}>계산하기</Text>
-        </TouchableOpacity>
+        <Calculatebutton
+          disabled={!mileage && !gasMileage && !selectedPrice ? true : false}
+        />
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -213,18 +219,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     color: theme.white,
     fontSize: 16,
-  },
-  button: {
-    width: 200,
-    height: 50,
-    backgroundColor: theme.yellow,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 32,
-  },
-  calculationText: {
-    color: theme.black,
-    fontSize: 28,
   },
 });
