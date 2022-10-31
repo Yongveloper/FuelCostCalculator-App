@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { IOils } from '../App';
 import { theme } from '../color';
 
 interface IOilListItemProps {
-  oil: string;
+  oil: IOils;
   selectedOil: string;
   setSelectedOil: React.Dispatch<React.SetStateAction<string>>;
   disabled: boolean;
@@ -21,8 +22,8 @@ function OilListItem({
   setSelectedOil,
   disabled,
 }: IOilListItemProps) {
-  const selectOil = () => setSelectedOil(oil);
-
+  const selectOil = () => setSelectedOil(oil.name);
+  console.log('render');
   return (
     <TouchableOpacity
       onPress={selectOil}
@@ -35,13 +36,13 @@ function OilListItem({
           disabled && styles.disabledOutSideRadioBtn,
         ]}
       >
-        {oil === selectedOil && <View style={styles.insideRadioBtn} />}
+        {oil.name === selectedOil && <View style={styles.insideRadioBtn} />}
       </View>
       <Text style={[styles.oilName, disabled && styles.disalbedText]}>
-        {oil}
+        {oil.name}
       </Text>
       <View>
-        {oil === '직접입력' ? (
+        {oil.name === '직접입력' ? (
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
@@ -57,7 +58,7 @@ function OilListItem({
           </View>
         ) : (
           <Text style={[styles.wonText, disabled && styles.disalbedText]}>
-            (약 ----원/L)
+            (약 {oil.price !== null ? oil.price : '----'}원/L)
           </Text>
         )}
       </View>
