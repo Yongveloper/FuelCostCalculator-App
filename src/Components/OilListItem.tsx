@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { IOils } from '../App';
-import { theme } from '../color';
+import { IOils } from '../Screens/Home';
+import { theme } from '../utils/color';
 
 interface IOilListItemProps {
   oil: IOils;

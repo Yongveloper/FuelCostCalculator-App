@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { theme } from '../color';
+import { theme } from '../utils/color';
 import { handleOnlyNumber } from '../utils/onlyNumberFn';
 
 interface IDirectInputProps {

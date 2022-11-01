@@ -1,11 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { theme } from '../color';
+import { theme } from '../utils/color';
 
 interface ICalculateButtonProps {
   disabled: boolean;
   mileage: string;
   gasMileage: string;
   selectedPrice: string;
+  moveResultScreen: (price: number, fuelVolume: string) => void;
 }
 
 function Calculatebutton({
@@ -13,6 +14,7 @@ function Calculatebutton({
   gasMileage,
   selectedPrice,
   disabled,
+  moveResultScreen,
 }: ICalculateButtonProps) {
   const stringNumberToInt = (stringNumber: string) => {
     return parseInt(stringNumber.replace(/,/g, ''));
@@ -27,6 +29,10 @@ function Calculatebutton({
       `주유비:${result} 주유량: ${(
         result / stringNumberToInt(selectedPrice)
       ).toFixed(3)}`
+    );
+    moveResultScreen(
+      result,
+      (result / stringNumberToInt(selectedPrice)).toFixed(3)
     );
   };
 
