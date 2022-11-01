@@ -22,7 +22,7 @@ function OilListItem({
     setSelectedOil(oil.name);
     setSelectedPrice(oil.price as string);
   };
-  console.log('render');
+
   return (
     <TouchableOpacity
       onPress={selectOil}

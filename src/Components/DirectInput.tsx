@@ -29,7 +29,7 @@ function DirectInput({
     setSelectedOil('직접입력');
     setSelectedPrice(value);
   };
-  console.log('direct input render');
+
   return (
     <TouchableOpacity onPress={selectOil} style={styles.container}>
       <View style={styles.outSideRadioBtn}>
