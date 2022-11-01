@@ -6,7 +6,7 @@ interface ICalculateButtonProps {
   mileage: string;
   gasMileage: string;
   selectedPrice: string;
-  moveResultScreen: (price: number, fuelVolume: string) => void;
+  moveToResultScreen: (price: number, fuelVolume: string) => void;
 }
 
 function Calculatebutton({
@@ -14,7 +14,7 @@ function Calculatebutton({
   gasMileage,
   selectedPrice,
   disabled,
-  moveResultScreen,
+  moveToResultScreen,
 }: ICalculateButtonProps) {
   const stringNumberToInt = (stringNumber: string) => {
     return parseInt(stringNumber.replace(/,/g, ''));
@@ -25,12 +25,8 @@ function Calculatebutton({
       (stringNumberToInt(mileage) / stringNumberToInt(gasMileage)) *
         stringNumberToInt(selectedPrice)
     );
-    console.log(
-      `주유비:${result} 주유량: ${(
-        result / stringNumberToInt(selectedPrice)
-      ).toFixed(3)}`
-    );
-    moveResultScreen(
+
+    moveToResultScreen(
       result,
       (result / stringNumberToInt(selectedPrice)).toFixed(3)
     );
@@ -61,7 +57,8 @@ const styles = StyleSheet.create({
   },
   calculationText: {
     color: theme.black,
-    fontSize: 28,
+    fontSize: 26,
+    fontWeight: '600',
   },
   disabled: {
     backgroundColor: theme.grey,

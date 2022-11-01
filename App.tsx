@@ -10,7 +10,13 @@ export enum Screens {
 
 export type RootStackParamList = {
   Home: undefined;
-  Result: { price: number; fuelVolume: string };
+  Result: {
+    mileage: string;
+    gasMileage: string;
+    oilPrice: string;
+    expectedPrice: number;
+    fuelVolume: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

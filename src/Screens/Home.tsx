@@ -71,8 +71,14 @@ export default function Home({ navigation }: HomeScreenProps) {
     },
   ]);
 
-  const moveResultScreen = (price: number, fuelVolume: string) =>
-    navigation.navigate('Result', { price, fuelVolume });
+  const moveToResultScreen = (expectedPrice: number, fuelVolume: string) =>
+    navigation.navigate('Result', {
+      mileage,
+      gasMileage,
+      oilPrice: selectedPrice,
+      expectedPrice,
+      fuelVolume,
+    });
 
   const handleMileageInput = (payload: string) =>
     setMileage(handleOnlyNumber(payload));
@@ -201,7 +207,7 @@ export default function Home({ navigation }: HomeScreenProps) {
           mileage={mileage}
           gasMileage={gasMileage}
           selectedPrice={selectedPrice}
-          moveResultScreen={moveResultScreen}
+          moveToResultScreen={moveToResultScreen}
         />
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
