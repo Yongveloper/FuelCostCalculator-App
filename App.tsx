@@ -155,7 +155,7 @@ export default function App() {
         </View>
         <View style={{ alignItems: 'center', marginVertical: 12 }}>
           <Text style={styles.inputTitle}>유류 가격</Text>
-          {oils[0].price === null && (
+          {oils[0].price === null ? (
             <>
               <Text style={{ color: theme.white, fontSize: 18 }}>
                 현재 날짜 기준 전국 주유소 평균 가격 불러오기
@@ -168,6 +168,10 @@ export default function App() {
                 />
               </TouchableOpacity>
             </>
+          ) : (
+            <Text style={{ color: theme.white, fontSize: 18 }}>
+              {new Date().toLocaleDateString()} 기준
+            </Text>
           )}
         </View>
         <View>
