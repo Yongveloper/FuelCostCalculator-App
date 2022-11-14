@@ -20,6 +20,7 @@ import { fetchOilData } from '../utils/api';
 import DirectInput from '../Components/DirectInput';
 import Calculatebutton from '../Components/Calculatebutton';
 import { handleOnlyNumber } from '../utils/onlyNumberFn';
+import LoadingSpinner from '../Components/LoadingSpinner';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, Screens.Home>;
 
@@ -71,14 +72,21 @@ export default function Home({ navigation }: HomeScreenProps) {
     },
   ]);
 
-  const moveToResultScreen = (expectedPrice: number, fuelVolume: string) =>
-    navigation.navigate('Result', {
-      mileage,
-      gasMileage,
-      oilPrice: selectedPrice,
-      expectedPrice,
-      fuelVolume,
-    });
+  const moveToResultScreen = (expectedPrice: number, fuelVolume: string) => {
+    setLoading(true);
+    setTimeout(() => {
+      navigation.navigate('Result', {
+        mileage,
+        gasMileage,
+        oilPrice: selectedPrice,
+        expectedPrice,
+        fuelVolume,
+      });
+    }, 500);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  };
 
   const handleMileageInput = (payload: string) =>
     setMileage(handleOnlyNumber(payload));
@@ -117,9 +125,7 @@ export default function Home({ navigation }: HomeScreenProps) {
   };
 
   const handleLoadOilData = async () => {
-    setLoading(true);
     const data: OilData = await fetchOilData();
-    setLoading(false);
     const result = data.RESULT.OIL.map((oil) => {
       return {
         name: setRename(oil.PRODNM),
@@ -207,6 +213,7 @@ export default function Home({ navigation }: HomeScreenProps) {
           />
         </View>
         <Calculatebutton
+          loading={loading}
           disabled={!mileage || !gasMileage || !selectedPrice ? true : false}
           mileage={mileage}
           gasMileage={gasMileage}

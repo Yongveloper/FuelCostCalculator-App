@@ -1,7 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { theme } from '../utils/color';
+import LoadingSpinner from './LoadingSpinner';
 
 interface ICalculateButtonProps {
+  loading: boolean;
   disabled: boolean;
   mileage: string;
   gasMileage: string;
@@ -10,6 +12,7 @@ interface ICalculateButtonProps {
 }
 
 function Calculatebutton({
+  loading,
   mileage,
   gasMileage,
   selectedPrice,
@@ -38,9 +41,13 @@ function Calculatebutton({
       disabled={disabled}
       onPress={calculate}
     >
-      <Text style={[styles.calculationText, disabled && styles.disabled]}>
-        계산하기
-      </Text>
+      {loading ? (
+        <LoadingSpinner color="grey" size="large" />
+      ) : (
+        <Text style={[styles.calculationText, disabled && styles.disabled]}>
+          계산하기
+        </Text>
+      )}
     </TouchableOpacity>
   );
 }
