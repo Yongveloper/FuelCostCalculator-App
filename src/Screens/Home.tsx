@@ -94,31 +94,35 @@ export default function Home({ navigation }: HomeScreenProps) {
     }
   };
 
+  const setRename = (oilName: string) => {
+    let name = '';
+    switch (oilName) {
+      case '고급휘발유':
+        name = '고급 휘발유';
+        break;
+      case '자동차용경유':
+        name = '경유';
+        break;
+      case '휘발유':
+        name = '휘발유';
+        break;
+      case '실내등유':
+        name = '등유';
+        break;
+      case '자동차용부탄':
+        name = 'LPG';
+        break;
+    }
+    return name;
+  };
+
   const handleLoadOilData = async () => {
     setLoading(true);
     const data: OilData = await fetchOilData();
     setLoading(false);
     const result = data.RESULT.OIL.map((oil) => {
-      let name = '';
-      switch (oil.PRODNM) {
-        case '고급휘발유':
-          name = '고급 휘발유';
-          break;
-        case '자동차용경유':
-          name = '경유';
-          break;
-        case '휘발유':
-          name = '휘발유';
-          break;
-        case '실내등유':
-          name = '등유';
-          break;
-        case '자동차용부탄':
-          name = 'LPG';
-          break;
-      }
       return {
-        name,
+        name: setRename(oil.PRODNM),
         price: Math.round(parseInt(oil.PRICE)).toLocaleString('ko-KR'),
       };
     });
