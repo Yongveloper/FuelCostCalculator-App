@@ -20,7 +20,6 @@ import { fetchOilData } from '../utils/api';
 import DirectInput from '../Components/DirectInput';
 import Calculatebutton from '../Components/Calculatebutton';
 import { handleOnlyNumber } from '../utils/onlyNumberFn';
-import LoadingSpinner from '../Components/LoadingSpinner';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, Screens.Home>;
 
@@ -49,6 +48,7 @@ export default function Home({ navigation }: HomeScreenProps) {
   const [selectedOil, setSelectedOil] = useState('직접입력');
   const [selectedPrice, setSelectedPrice] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [oils, setOils] = useState<IOils[]>([
     {
       name: '고급 휘발유',
@@ -125,14 +125,21 @@ export default function Home({ navigation }: HomeScreenProps) {
   };
 
   const handleLoadOilData = async () => {
-    const data: OilData = await fetchOilData();
-    const result = data.RESULT.OIL.map((oil) => {
-      return {
-        name: setRename(oil.PRODNM),
-        price: Math.round(parseInt(oil.PRICE)).toLocaleString('ko-KR'),
-      };
-    });
-    setOils(result);
+    try {
+      const data: OilData = await fetchOilData();
+      const result = data.RESULT.OIL.map((oil) => {
+        return {
+          name: setRename(oil.PRODNM),
+          price: Math.round(parseInt(oil.PRICE)).toLocaleString('ko-KR'),
+        };
+      });
+      setOils(result);
+      if (error) {
+        setError(false);
+      }
+    } catch (err) {
+      setError(true);
+    }
   };
 
   return (
@@ -192,6 +199,11 @@ export default function Home({ navigation }: HomeScreenProps) {
           ) : (
             <Text style={{ color: theme.white, fontSize: 18 }}>
               {new Date().toLocaleDateString()} 기준
+            </Text>
+          )}
+          {error && (
+            <Text style={styles.errorText}>
+              Error: 가격을 불러오지 못했습니다.
             </Text>
           )}
         </View>
@@ -260,5 +272,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     color: theme.white,
     fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
