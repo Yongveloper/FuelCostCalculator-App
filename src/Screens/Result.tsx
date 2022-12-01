@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRef, useEffect } from 'react';
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList, Screens } from '../../App';
 import { theme } from '../utils/color';
@@ -12,6 +19,36 @@ export type ResultScreenProps = StackScreenProps<
 export default function Result({ navigation, route }: ResultScreenProps) {
   const { mileage, gasMileage, oilPrice, expectedPrice, fuelVolume } =
     route.params;
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateYAnim = useRef(new Animated.Value(-30)).current;
+  const fadeAnim2 = useRef(new Animated.Value(0)).current;
+  const translateYAnim2 = useRef(new Animated.Value(-30)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+    Animated.timing(translateYAnim, {
+      toValue: 0,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+    Animated.timing(fadeAnim2, {
+      toValue: 1,
+      duration: 800,
+      delay: 450,
+      useNativeDriver: true,
+    }).start();
+    Animated.timing(translateYAnim2, {
+      toValue: 0,
+      duration: 800,
+      delay: 450,
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -29,12 +66,22 @@ export default function Result({ navigation, route }: ResultScreenProps) {
           {Number(handleOnlyNumber(oilPrice)).toLocaleString('ko-KR')} (원/L)
         </Text>
       </View>
-      <View style={styles.bigTextContainer}>
+      <Animated.View
+        style={[
+          styles.bigTextContainer,
+          { opacity: fadeAnim, transform: [{ translateY: translateYAnim }] },
+        ]}
+      >
         <Text style={styles.bigTitle}>예상 주유량은</Text>
         <Text style={styles.BigText}>약 {fuelVolume}L</Text>
         <Text style={styles.bigTitle}>입니다.</Text>
-      </View>
-      <View style={styles.bigTextContainer}>
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.bigTextContainer,
+          { opacity: fadeAnim2, transform: [{ translateY: translateYAnim2 }] },
+        ]}
+      >
         <Text style={styles.bigTitle}>예상 주유 금액은</Text>
         <Text style={styles.BigText}>
           약{' '}
@@ -44,7 +91,7 @@ export default function Result({ navigation, route }: ResultScreenProps) {
           원
         </Text>
         <Text style={styles.bigTitle}>입니다.</Text>
-      </View>
+      </Animated.View>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Home')}
