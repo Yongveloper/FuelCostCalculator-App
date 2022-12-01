@@ -198,7 +198,10 @@ export default function Home({ navigation }: HomeScreenProps) {
             </>
           ) : (
             <Text style={{ color: theme.white, fontSize: 18 }}>
-              {new Date().toLocaleDateString()} 기준
+              {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full' }).format(
+                new Date()
+              )}{' '}
+              기준
             </Text>
           )}
           {error && (
