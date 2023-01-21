@@ -24,15 +24,16 @@ function Calculatebutton({
   };
 
   const calculate = () => {
-    const result = Math.ceil(
+    const expectedPrice = Math.ceil(
       (stringNumberToInt(mileage) / stringNumberToInt(gasMileage)) *
         stringNumberToInt(selectedPrice)
     );
 
-    moveToResultScreen(
-      result,
-      (result / stringNumberToInt(selectedPrice)).toFixed(3)
-    );
+    const expectedFuelVolume = (
+      expectedPrice / stringNumberToInt(selectedPrice)
+    ).toFixed(3);
+
+    moveToResultScreen(expectedPrice, expectedFuelVolume);
   };
 
   return (
