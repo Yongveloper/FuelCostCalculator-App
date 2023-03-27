@@ -201,7 +201,7 @@ export default function Home({ navigation }: HomeScreenProps) {
               {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full' }).format(
                 new Date()
               )}{' '}
-              기준
+              전국 평균 가격
             </Text>
           )}
           {error && (
