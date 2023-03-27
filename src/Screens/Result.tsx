@@ -130,12 +130,12 @@ const styles = StyleSheet.create({
   bigTitle: {
     color: theme.yellow,
     textAlign: 'center',
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '600',
   },
   BigText: {
     color: theme.white,
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: '600',
   },
   button: {
